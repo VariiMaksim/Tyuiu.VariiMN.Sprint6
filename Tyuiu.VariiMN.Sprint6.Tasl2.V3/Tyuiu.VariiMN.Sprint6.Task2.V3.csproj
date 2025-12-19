@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tyuiu.VariiMN.Sprint6.Task3.V2.Lib\Tyuiu.VariiMN.Sprint6.Task3.V2.Lib.csproj" />
+    <ProjectReference Include="..\Tyuiu.VariiMN.Sprint6.Task2.V3.Lib\Tyuiu.VariiMN.Sprint6.Task2.V3.Lib.csproj" />
   </ItemGroup>
 
 </Project>
