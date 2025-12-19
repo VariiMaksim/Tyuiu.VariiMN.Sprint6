@@ -6,13 +6,14 @@ namespace Tyuiu.VariiMN.Sprint6.Task5.V6.Lib
 
     {
         public int len = 20;
+
         public double[] LoadFromDataFile(string path)
         {
             List<double> result = new List<double>();
 
             try
             {
-
+ 
                 string[] lines = File.ReadAllLines(path);
 
 
@@ -20,17 +21,32 @@ namespace Tyuiu.VariiMN.Sprint6.Task5.V6.Lib
                 {
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        if (double.TryParse(line.Trim(), out double number))
+                        string trimmedLine = line.Trim();
+
+
+                        if (int.TryParse(trimmedLine, out int intNumber))
                         {
 
-                            if (Math.Abs(Math.Round(number) % 3) < 0.000001)
+                            if (intNumber % 3 == 0)
                             {
-                                result.Add(number);
+                                result.Add(intNumber);
+                            }
+                        }
+                        else if (double.TryParse(trimmedLine, out double doubleNumber))
+                        {
+
+                            double rounded = Math.Round(doubleNumber);
+                            if (Math.Abs(doubleNumber - rounded) < 0.0001) 
+                            {
+                                int intValue = (int)rounded;
+                                if (intValue % 3 == 0)
+                                {
+                                    result.Add(doubleNumber);
+                                }
                             }
                         }
                     }
                 }
-
 
                 return result.ToArray();
             }
@@ -46,7 +62,6 @@ namespace Tyuiu.VariiMN.Sprint6.Task5.V6.Lib
             {
                 throw new Exception($"Ошибка обработки данных: {ex.Message}");
             }
-        
         }
     } 
 }
