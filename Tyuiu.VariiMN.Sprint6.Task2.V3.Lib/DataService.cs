@@ -22,7 +22,7 @@ namespace Tyuiu.VariiMN.Sprint6.Task2.V3.Lib
                 }
                 else
                 {
-                    fx = Math.Sin(x) / denominator + Math.Cos(x) + 7 * x - 2;
+                    fx = (Math.Sin(x) / denominator) + (Math.Cos(x) * 7 * x - 2);
                 }
 
                 fx = Math.Round(fx, 2);
