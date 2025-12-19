@@ -8,49 +8,45 @@ namespace Tyuiu.VariiMN.Sprint6.Task5.V6.Lib
         public int len = 20;
         public double[] LoadFromDataFile(string path)
         {
-            List<int> numbers = new List<int>();
+            List<double> result = new List<double>();
 
             try
             {
-                
-                using (StreamReader reader = new StreamReader(path))
-                {
-                    string line;
-                    while ((line = reader.ReadLine()) != null && numbers.Count < len)
-                    {
-                        if (string.IsNullOrWhiteSpace(line))
-                            continue;
 
-                        if (int.TryParse(line.Trim(), out int number))
+                string[] lines = File.ReadAllLines(path);
+
+
+                foreach (string line in lines)
+                {
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        if (double.TryParse(line.Trim(), out double number))
                         {
-                            numbers.Add(number);
+
+                            if (Math.Abs(Math.Round(number) % 3) < 0.000001)
+                            {
+                                result.Add(number);
+                            }
                         }
                     }
                 }
 
-                
-                while (numbers.Count < len)
-                {
-                    numbers.Add(0);
-                }
-
-                
-                List<double> result = new List<double>();
-                foreach (int num in numbers)
-                {
-                    if (num % 3 == 0)
-                    {
-                        result.Add(num);
-                    }
-                }
 
                 return result.ToArray();
             }
+            catch (FileNotFoundException)
+            {
+                throw new FileNotFoundException($"Файл не найден по пути: {path}");
+            }
+            catch (IOException ex)
+            {
+                throw new IOException($"Ошибка чтения файла: {ex.Message}");
+            }
             catch (Exception ex)
             {
-                throw new Exception($"Ошибка: {ex.Message}");
+                throw new Exception($"Ошибка обработки данных: {ex.Message}");
             }
+        
         }
-    }
-    
+    } 
 }
