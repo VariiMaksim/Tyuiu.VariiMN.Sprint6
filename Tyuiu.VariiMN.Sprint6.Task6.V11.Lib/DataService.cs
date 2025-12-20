@@ -43,5 +43,5 @@ namespace Tyuiu.VariiMN.Sprint6.Task6.V11.Lib
             }
         }
     }
-    }
+    
 }
