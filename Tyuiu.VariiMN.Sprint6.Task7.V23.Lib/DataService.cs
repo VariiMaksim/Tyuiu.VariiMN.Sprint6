@@ -9,47 +9,78 @@ namespace Tyuiu.VariiMN.Sprint6.Task7.V23.Lib
         {
             try
             {
+                
                 if (!File.Exists(path))
+                {
                     throw new FileNotFoundException($"Файл не найден: {path}");
+                }
 
+                
+                string[] lines = File.ReadAllLines(path, Encoding.Default);
 
-                string[] lines = File.ReadAllLines(path, Encoding.UTF8);
-
-
+                // Определяем количество строк
                 int rows = lines.Length;
-                if (rows == 0) return new int[0, 0];
+                if (rows == 0)
+                {
+                    return new int[0, 0];
+                }
 
+                
+                string[] firstRow = lines[0].Split(',');
+                int cols = firstRow.Length;
 
-                string[] firstRowValues = ParseCSVLine(lines[0]);
-                int cols = firstRowValues.Length;
-
-
+                
                 int[,] matrix = new int[rows, cols];
 
+                
                 for (int i = 0; i < rows; i++)
                 {
-                    string[] values = ParseCSVLine(lines[i]);
+                    string line = lines[i];
 
+                    
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        
+                        for (int j = 0; j < cols; j++)
+                        {
+                            matrix[i, j] = 0;
+                        }
+                        continue;
+                    }
+
+                    
+                    string[] values = line.Split(',');
+
+                    
                     for (int j = 0; j < cols; j++)
                     {
-                        if (j < values.Length && int.TryParse(values[j].Trim(), out int num))
+                        if (j < values.Length && !string.IsNullOrWhiteSpace(values[j]))
                         {
-                            matrix[i, j] = num;
+                            
+                            if (int.TryParse(values[j].Trim(), out int value))
+                            {
+                                matrix[i, j] = value;
+                            }
+                            else
+                            {
+                                matrix[i, j] = 0;
+                            }
                         }
                         else
                         {
-                            matrix[i, j] = 0;
+                            matrix[i, j] = 0; 
                         }
                     }
                 }
 
-
-                int lastCol = cols - 1;
+                
+                int lastColumn = cols - 1;
                 for (int i = 0; i < rows; i++)
                 {
-                    if (matrix[i, lastCol] < 2)
+                    
+                    if (matrix[i, lastColumn] < 2)
                     {
-                        matrix[i, lastCol] = 2;
+                        matrix[i, lastColumn] = 2;
                     }
                 }
 
@@ -57,41 +88,11 @@ namespace Tyuiu.VariiMN.Sprint6.Task7.V23.Lib
             }
             catch (Exception ex)
             {
-                throw new Exception($"Ошибка обработки файла: {ex.Message}", ex);
+                throw new Exception($"Ошибка при обработке файла: {ex.Message}", ex);
             }
         }
-
-        private string[] ParseCSVLine(string line)
-        {
-            if (string.IsNullOrEmpty(line))
-                return new string[0];
-
-            List<string> result = new List<string>();
-            StringBuilder current = new StringBuilder();
-            bool inQuotes = false;
-
-            for (int i = 0; i < line.Length; i++)
-            {
-                char ch = line[i];
-
-                if (ch == '"')
-                {
-                    inQuotes = !inQuotes;
-                }
-                else if (ch == ',' && !inQuotes)
-                {
-                    result.Add(current.ToString());
-                    current.Clear();
-                }
-                else
-                {
-                    current.Append(ch);
-                }
-            }
-
-            result.Add(current.ToString());
-            return result.ToArray();
-        }
+         
+            
     }
     
 }
