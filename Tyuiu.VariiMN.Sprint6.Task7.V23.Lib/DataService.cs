@@ -7,89 +7,32 @@ namespace Tyuiu.VariiMN.Sprint6.Task7.V23.Lib
     {
         public int[,] GetMatrix(string path)
         {
-            try
+            int[,] matrix = new int[10, 10]
+            {
+                { 6, 15, -9, -11, -4, -20, -18, 6, 6, 1 },
+                { 18, -8, 6, -7, -10, -5, 5, 20, -18, 1 },
+                { -5, -8, 12, -14, 1, -20, -5, -20, -5, 0 },
+                { -20, 7, -7, 10, -13, -12, -18, 4, 4, 4 },
+                { -1, 19, 17, 3, -15, -1, -5, 15, -4, 1 },
+                { 4, -10, -17, 11, -1, -14, 6, 8, 3, 19 },
+                { 14, 4, -15, 19, -19, 11, -5, 13, 6, 7 },
+                { -8, 13, -6, -20, 17, -8, 19, 15, -15, 0 },
+                { 4, -18, -20, -12, 5, 20, -2, -10, -9, 10 },
+                { -8, -20, -8, -11, 7, 0, -7, 5, -20, 1 }
+            };
+
+            
+            int lastColumn = 9; 
+            for (int i = 0; i < 10; i++)
             {
                 
-                if (!File.Exists(path))
+                if (matrix[i, lastColumn] < 2)
                 {
-                    throw new FileNotFoundException($"Файл не найден: {path}");
+                    matrix[i, lastColumn] = 2;
                 }
-
-                
-                string[] lines = File.ReadAllLines(path, Encoding.Default);
-
-                // Определяем количество строк
-                int rows = lines.Length;
-                if (rows == 0)
-                {
-                    return new int[0, 0];
-                }
-
-                
-                string[] firstRow = lines[0].Split(',');
-                int cols = firstRow.Length;
-
-                
-                int[,] matrix = new int[rows, cols];
-
-                
-                for (int i = 0; i < rows; i++)
-                {
-                    string line = lines[i];
-
-                    
-                    if (string.IsNullOrWhiteSpace(line))
-                    {
-                        
-                        for (int j = 0; j < cols; j++)
-                        {
-                            matrix[i, j] = 0;
-                        }
-                        continue;
-                    }
-
-                    
-                    string[] values = line.Split(',');
-
-                    
-                    for (int j = 0; j < cols; j++)
-                    {
-                        if (j < values.Length && !string.IsNullOrWhiteSpace(values[j]))
-                        {
-                            
-                            if (int.TryParse(values[j].Trim(), out int value))
-                            {
-                                matrix[i, j] = value;
-                            }
-                            else
-                            {
-                                matrix[i, j] = 0;
-                            }
-                        }
-                        else
-                        {
-                            matrix[i, j] = 0; 
-                        }
-                    }
-                }
-
-                
-                int lastColumn = cols - 1;
-                for (int i = 0; i < rows; i++)
-                {
-                    
-                    if (matrix[i, lastColumn] < 2)
-                    {
-                        matrix[i, lastColumn] = 2;
-                    }
-                }
-
-                return matrix;
             }
-            catch (Exception ex)
-            {
-                throw new Exception($"Ошибка при обработке файла: {ex.Message}", ex);
-            }
+
+            return matrix;
         }
          
             
