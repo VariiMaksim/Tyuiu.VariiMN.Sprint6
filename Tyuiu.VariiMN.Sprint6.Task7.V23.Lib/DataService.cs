@@ -93,5 +93,5 @@ namespace Tyuiu.VariiMN.Sprint6.Task7.V23.Lib
             return result.ToArray();
         }
     }
-    }
+    
 }
